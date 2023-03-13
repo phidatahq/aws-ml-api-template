@@ -11,7 +11,7 @@ from workspace.prd.docker_config import prd_api_image
 from workspace.settings import ws_settings
 
 #
-# -*- Production AWS resources
+# -*- Production AWS resources for running the ML Api
 #
 
 # -*- Create ECS cluster for running containers
@@ -22,13 +22,10 @@ prd_ecs_cluster = EcsCluster(
     capacity_providers=[launch_type],
 )
 
-#
-# -*- AWS Resources for Api Server running FastAPI
-#
 # -*- Api Container running FastAPI on ECS
 api_container_port = 9090
 prd_api_container = EcsContainer(
-    name=f"{ws_settings.ws_name}-api",
+    name=ws_settings.ws_name,
     enabled=ws_settings.prd_api_enabled,
     image=prd_api_image.get_image_str(),
     port_mappings=[{"containerPort": api_container_port}],
@@ -46,6 +43,7 @@ prd_api_container = EcsContainer(
         },
     },
 )
+
 # -*- Api Task Definition
 prd_api_task_definition = EcsTaskDefinition(
     name=f"{ws_settings.prd_key}-td",
@@ -56,6 +54,7 @@ prd_api_task_definition = EcsTaskDefinition(
     containers=[prd_api_container],
     requires_compatibilities=[launch_type],
 )
+
 # -*- Api Service
 prd_api_service = EcsService(
     name=f"{ws_settings.prd_key}-service",
@@ -72,6 +71,7 @@ prd_api_service = EcsService(
         }
     },
 )
+
 # -*- AwsResourceGroup
 api_aws_rg = AwsResourceGroup(
     name=f"{ws_settings.ws_name}-api",

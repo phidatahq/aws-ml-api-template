@@ -1,4 +1,4 @@
-from phidata.app.server import AppServer, ApiServer
+from phidata.app.server import ApiServer
 from phidata.docker.config import DockerConfig, DockerImage
 
 from workspace.dev.jupyter.docker_resources import dev_jupyter_lab
@@ -8,7 +8,7 @@ from workspace.settings import ws_settings
 # -*- Dev Docker resources
 #
 
-# -*- Dev Api Image
+# -*- Dev ML Api Image
 dev_api_image = DockerImage(
     name=f"{ws_settings.image_repo}/{ws_settings.ws_name}",
     tag=ws_settings.dev_env,
@@ -23,7 +23,7 @@ dev_api_image = DockerImage(
 
 # -*- Api Server running FastAPI on port 9090
 dev_api_server = ApiServer(
-    name=f"{ws_settings.ws_name}-api",
+    name=ws_settings.ws_name,
     enabled=ws_settings.dev_api_enabled,
     image=dev_api_image,
     mount_workspace=True,

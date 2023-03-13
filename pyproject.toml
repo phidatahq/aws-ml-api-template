@@ -1,5 +1,5 @@
 [project]
-name = "api001"
+name = "ml-api"
 version = "0.1.0"
 requires-python = ">3.7"
 readme = "README.md"
@@ -18,7 +18,7 @@ dependencies = [
   "pytest",
   # Linting
   "ruff",
-  "phidata==1.4.2.dev1",
+  "phidata==1.4.3",
   # Libraries for data processing
   "pandas",
   "polars",
