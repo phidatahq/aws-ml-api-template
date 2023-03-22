@@ -13,6 +13,7 @@ dev_jupyter_image = DockerImage(
     tag=ws_settings.dev_env,
     enabled=(ws_settings.build_images and ws_settings.dev_jupyter_enabled),
     path=str(ws_settings.ws_root),
+    # platform="linux/amd64",
     dockerfile="workspace/dev/jupyter/jupyter.Dockerfile",
     pull=ws_settings.force_pull_images,
     push_image=ws_settings.push_images,
