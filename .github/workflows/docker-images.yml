@@ -81,4 +81,4 @@ jobs:
           file: workspace/dev/jupyter/jupyter.Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_REPO }}/jupyter-ai001:dev
+          tags: ${{ secrets.DOCKERHUB_REPO }}/jupyter-api001:dev
