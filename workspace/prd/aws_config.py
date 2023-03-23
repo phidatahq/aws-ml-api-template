@@ -72,6 +72,10 @@ prd_api_service = EcsService(
             "assignPublicIp": "ENABLED",
         }
     },
+    # Force delete the service.
+    force_delete=True,
+    # Force a new deployment of the service on update.
+    force_new_deployment=True,
 )
 
 # -*- AwsResourceGroup
