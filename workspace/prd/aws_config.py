@@ -80,7 +80,7 @@ prd_api_service = EcsService(
 
 # -*- AwsResourceGroup
 api_aws_rg = AwsResourceGroup(
-    name=api_key",
+    name=api_key,
     enabled=ws_settings.prd_api_enabled,
     ecs_clusters=[prd_ecs_cluster],
     ecs_task_definitions=[prd_api_task_definition],
