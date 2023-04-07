@@ -1,14 +1,16 @@
-from phidata.app.server import ApiServer
+from os import getenv
+
+from phidata.app.fastapi import FastApi
 from phidata.docker.config import DockerConfig, DockerImage
 
-from workspace.dev.jupyter.docker_resources import dev_jupyter_lab
+from workspace.dev.jupyter.lab import dev_jupyter_lab
 from workspace.settings import ws_settings
 
 #
 # -*- Dev Docker resources
 #
 
-# -*- Dev ML Api Image
+# -*- Dev Image
 dev_api_image = DockerImage(
     name=f"{ws_settings.image_repo}/{ws_settings.ws_name}",
     tag=ws_settings.dev_env,
@@ -21,18 +23,22 @@ dev_api_image = DockerImage(
     use_cache=ws_settings.use_cache,
 )
 
-# -*- Api Server running FastAPI on port 9090
-dev_api_server = ApiServer(
-    name=ws_settings.ws_name,
+# -*- FastApi running on port 9090
+dev_api_server = FastApi(
+    name=f"{ws_settings.ws_name}-api",
     enabled=ws_settings.dev_api_enabled,
     image=dev_api_image,
+    command="api start -r",
     mount_workspace=True,
+    # Get the OpenAI API key from the environment if available
+    env={"OPENAI_API_KEY": getenv("OPENAI_API_KEY", "")},
     use_cache=ws_settings.use_cache,
+    # Read secrets from a file
     secrets_file=ws_settings.ws_root.joinpath("workspace/secrets/api_secrets.yml"),
 )
 
 #
-# -*- Define dev Docker resources using the DockerConfig
+# -*- Define Docker resources using the DockerConfig
 #
 dev_docker_config = DockerConfig(
     env=ws_settings.dev_env,

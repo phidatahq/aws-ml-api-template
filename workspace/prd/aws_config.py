@@ -1,8 +1,8 @@
 from os import getenv
 
+from phidata.app.fastapi import FastApi
 from phidata.aws.config import AwsConfig
 from phidata.aws.resource.s3.bucket import S3Bucket
-from phidata.app.server import FastApi
 
 from workspace.prd.docker_config import prd_api_image
 from workspace.settings import ws_settings
