@@ -1,6 +1,6 @@
 from os import getenv
 
-from phidata.app.fastapi import FastApi
+from phidata.app.fastapi import FastApiServer
 from phidata.aws.config import AwsConfig
 from phidata.aws.resource.s3.bucket import S3Bucket
 
@@ -34,8 +34,8 @@ prd_data_s3_bucket = S3Bucket(
     wait_for_deletion=wait_for_deletion,
 )
 
-# -*- FastApi running on ECS
-prd_fastapi = FastApi(
+# -*- FastApiServer running on ECS
+prd_fastapi = FastApiServer(
     name=api_key,
     enabled=ws_settings.prd_api_enabled,
     image=prd_api_image,

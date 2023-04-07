@@ -1,6 +1,6 @@
 from os import getenv
 
-from phidata.app.fastapi import FastApi
+from phidata.app.fastapi import FastApiServer
 from phidata.docker.config import DockerConfig, DockerImage
 
 from workspace.dev.jupyter.lab import dev_jupyter_lab
@@ -23,8 +23,8 @@ dev_api_image = DockerImage(
     use_cache=ws_settings.use_cache,
 )
 
-# -*- FastApi running on port 9090
-dev_fastapi = FastApi(
+# -*- FastApiServer running on port 9090
+dev_fastapi = FastApiServer(
     name=f"{ws_settings.ws_name}-api",
     enabled=ws_settings.dev_api_enabled,
     image=dev_api_image,
