@@ -35,7 +35,7 @@ prd_data_s3_bucket = S3Bucket(
 )
 
 # -*- FastApi running on ECS
-prd_api_server = FastApi(
+prd_fastapi = FastApi(
     name=api_key,
     enabled=ws_settings.prd_api_enabled,
     image=prd_api_image,
@@ -54,5 +54,5 @@ prd_api_server = FastApi(
 #
 prd_aws_config = AwsConfig(
     env=ws_settings.prd_env,
-    apps=[prd_api_server],
+    apps=[prd_fastapi],
 )

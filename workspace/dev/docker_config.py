@@ -24,7 +24,7 @@ dev_api_image = DockerImage(
 )
 
 # -*- FastApi running on port 9090
-dev_api_server = FastApi(
+dev_fastapi = FastApi(
     name=f"{ws_settings.ws_name}-api",
     enabled=ws_settings.dev_api_enabled,
     image=dev_api_image,
@@ -43,5 +43,5 @@ dev_api_server = FastApi(
 dev_docker_config = DockerConfig(
     env=ws_settings.dev_env,
     network=ws_settings.ws_name,
-    apps=[dev_api_server, dev_jupyter_lab],
+    apps=[dev_fastapi, dev_jupyter_lab],
 )
