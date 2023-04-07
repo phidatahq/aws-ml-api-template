@@ -14,8 +14,10 @@ from workspace.settings import ws_settings
 # -*- Production AWS resources for running the ML Api
 #
 
-# -*- Create ECS cluster for running containers
 launch_type = "FARGATE"
+api_key = f"{ws_settings.prd_key}-api"
+
+# -*- Create ECS cluster for running containers
 prd_ecs_cluster = EcsCluster(
     name=f"{ws_settings.prd_key}-cluster",
     ecs_cluster_name=ws_settings.prd_key,
@@ -25,11 +27,11 @@ prd_ecs_cluster = EcsCluster(
 # -*- Api Container running FastAPI on ECS
 api_container_port = 9090
 prd_api_container = EcsContainer(
-    name=ws_settings.ws_name,
+    name=api_key,
     enabled=ws_settings.prd_api_enabled,
     image=prd_api_image.get_image_str(),
     port_mappings=[{"containerPort": api_container_port}],
-    command=["api start"],
+    command=["api start Home"],
     environment=[
         {"name": "RUNTIME", "value": "prd"},
     ],
@@ -46,8 +48,8 @@ prd_api_container = EcsContainer(
 
 # -*- Api Task Definition
 prd_api_task_definition = EcsTaskDefinition(
-    name=f"{ws_settings.prd_key}-td",
-    family=ws_settings.prd_key,
+    name=f"{api_key}-td",
+    family=api_key,
     network_mode="awsvpc",
     cpu="512",
     memory="1024",
@@ -57,7 +59,7 @@ prd_api_task_definition = EcsTaskDefinition(
 
 # -*- Api Service
 prd_api_service = EcsService(
-    name=f"{ws_settings.prd_key}-service",
+    name=f"{api_key}-service",
     ecs_service_name=ws_settings.prd_key,
     desired_count=1,
     launch_type=launch_type,
@@ -65,16 +67,20 @@ prd_api_service = EcsService(
     task_definition=prd_api_task_definition,
     network_configuration={
         "awsvpcConfiguration": {
-            # "subnets": ws_settings.subnet_ids,
+            "subnets": ws_settings.subnet_ids,
             # "securityGroups": ws_settings.security_groups,
             "assignPublicIp": "ENABLED",
         }
     },
+    # Force delete the service.
+    force_delete=True,
+    # Force a new deployment of the service on update.
+    force_new_deployment=True,
 )
 
 # -*- AwsResourceGroup
 api_aws_rg = AwsResourceGroup(
-    name=f"{ws_settings.ws_name}-api",
+    name=api_key,
     enabled=ws_settings.prd_api_enabled,
     ecs_clusters=[prd_ecs_cluster],
     ecs_task_definitions=[prd_api_task_definition],
