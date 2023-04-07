@@ -1,11 +1,10 @@
 from os import getenv
 
 from phidata.aws.config import AwsConfig
-from phidata.aws.resource.ecs.cluster import EcsCluster
 from phidata.aws.resource.s3.bucket import S3Bucket
 from phidata.app.server import FastApi
 
-from workspace.prd.docker_config import prd_app_image
+from workspace.prd.docker_config import prd_api_image
 from workspace.settings import ws_settings
 
 #
@@ -39,7 +38,7 @@ prd_data_s3_bucket = S3Bucket(
 prd_api_server = FastApi(
     name=api_key,
     enabled=ws_settings.prd_api_enabled,
-    image=prd_app_image,
+    image=prd_api_image,
     command=["api", "start"],
     aws_subnets=ws_settings.subnet_ids,
     # aws_security_groups=ws_settings.security_groups,
