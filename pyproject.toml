@@ -22,6 +22,14 @@ dependencies = [
   # Libraries for data processing
   "pandas",
   "polars",
+  # Libraries for ML Apps
+  "openai",
+  "prophet",
+  "langchain",
+  "streamlit",
+  "scikit-learn",
+  "streamlit-chat",
+  "yfinance",
   # Libraries for Api server
   "fastapi",
   "typer",
@@ -61,5 +69,16 @@ module = [
   "pandas.*",
   "phidata.*",
   "setuptools.*",
+  "duckdb.*",
+  "langchain.*",
+  "joblib.*",
+  "pandas.*",
+  "phidata.*",
+  "prophet.*",
+  "pyarrow.*",
+  "setuptools.*",
+  "streamlit_chat.*",
+  "yfinance.*",
+
 ]
 ignore_missing_imports = true
